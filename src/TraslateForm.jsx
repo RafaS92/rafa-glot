@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import "./TraslateForm.css";
 
-export default function TraslateForm() {
+export default function TranslateForm() {
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("es"); // default Spanish
   const [translatedText, setTranslatedText] = useState("");
@@ -8,16 +9,10 @@ export default function TraslateForm() {
   const handleTranslate = () => {
     // For now just mock translation
     setTranslatedText(`Translated "${text}" to ${language}`);
-
-    // Later you can replace this with a call to an API
-    // Example with fetch to your backend:
-    // fetch("/api/translate", { method: "POST", body: JSON.stringify({ text, language }) })
-    //   .then(res => res.json())
-    //   .then(data => setTranslatedText(data.translation));
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: "auto", padding: 20 }}>
+    <div className="translator-container">
       <h2>🌍 Translator App</h2>
 
       <textarea
@@ -25,12 +20,12 @@ export default function TraslateForm() {
         onChange={(e) => setText(e.target.value)}
         placeholder="Enter text to translate..."
         rows={4}
-        style={{ width: "100%", padding: 10, marginBottom: 10 }}
+        className="translator-textarea"
       />
 
-      <div style={{ marginBottom: 15 }}>
+      <div className="translator-languages">
         <h4>Select Language:</h4>
-        <label style={{ display: "block", marginBottom: 5 }}>
+        <label>
           <input
             type="radio"
             value="es"
@@ -40,7 +35,7 @@ export default function TraslateForm() {
           Spanish
         </label>
 
-        <label style={{ display: "block", marginBottom: 5 }}>
+        <label>
           <input
             type="radio"
             value="fr"
@@ -50,7 +45,7 @@ export default function TraslateForm() {
           French
         </label>
 
-        <label style={{ display: "block", marginBottom: 5 }}>
+        <label>
           <input
             type="radio"
             value="de"
@@ -60,7 +55,7 @@ export default function TraslateForm() {
           German
         </label>
 
-        <label style={{ display: "block", marginBottom: 5 }}>
+        <label>
           <input
             type="radio"
             value="zh"
@@ -70,7 +65,7 @@ export default function TraslateForm() {
           Chinese
         </label>
 
-        <label style={{ display: "block", marginBottom: 5 }}>
+        <label>
           <input
             type="radio"
             value="hi"
@@ -81,30 +76,12 @@ export default function TraslateForm() {
         </label>
       </div>
 
-      <button
-        onClick={handleTranslate}
-        style={{
-          padding: "10px 20px",
-          width: "100%",
-          background: "#4CAF50",
-          color: "white",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
+      <button onClick={handleTranslate} className="translator-button">
         Translate
       </button>
 
       {translatedText && (
-        <div
-          style={{
-            marginTop: 20,
-            padding: 10,
-            border: "1px solid #ddd",
-            borderRadius: 5,
-            background: "#f9f9f9",
-          }}
-        >
+        <div className="translator-result">
           <h4>Result:</h4>
           <p>{translatedText}</p>
         </div>

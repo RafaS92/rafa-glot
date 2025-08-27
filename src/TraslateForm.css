@@ -1,0 +1,47 @@
+.translator-container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.translator-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.translator-languages {
+    margin-bottom: 15px;
+}
+
+.translator-languages label {
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.translator-button {
+    padding: 10px 20px;
+    width: 100%;
+    background: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.translator-button:hover {
+    background: #45a049;
+}
+
+.translator-result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
