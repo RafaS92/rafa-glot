@@ -35,6 +35,28 @@ app.post("/api/translate", async (req, res) => {
   }
 });
 
+app.post("/api/image", async (req, res) => {
+  const { prompt } = req.body;
+
+  if (!prompt) return res.status(400).json({ error: "Prompt is required" });
+
+  try {
+    const response = await openai.images.generate({
+      model: "dall-e-2",
+      prompt: prompt,
+      n: 1,
+      size: "256x256",
+      response_format: "b64_json",
+    });
+
+    const imageBase64 = response.data[0].b64_json;
+    res.json({ image: imageBase64 });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Image generation failed" });
+  }
+});
+
 app.listen(3001, () =>
   console.log("✅ Server running on http://localhost:3001")
 );

@@ -21,22 +21,32 @@ export default function TranslateForm() {
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState("es"); // default Spanish
   const [translatedText, setTranslatedText] = useState("");
+  const [image, setImage] = useState(null);
 
   const handleTranslate = async () => {
     if (!text) return;
 
     setLoading(true);
     setTranslatedText("");
-
+    setImage(null);
     try {
+      // Translation
       const res = await fetch("http://localhost:3001/api/translate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, language }),
       });
-
       const data = await res.json();
       setTranslatedText(data.translation);
+
+      // Image generation
+      const imgRes = await fetch("http://localhost:3001/api/image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: text }),
+      });
+      const imgData = await imgRes.json();
+      setImage(`data:image/png;base64,${imgData.image}`);
     } catch (err) {
       console.error(err);
       setTranslatedText("Error: Could not translate.");
@@ -93,6 +103,7 @@ export default function TranslateForm() {
       {translatedText && (
         <Result
           translatedText={translatedText}
+          image={image}
           language={languages.find((l) => l.value === language)?.label}
         />
       )}
