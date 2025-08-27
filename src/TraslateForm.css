@@ -3,6 +3,8 @@
     margin: auto;
     padding: 20px;
     font-family: Arial, sans-serif;
+    border: 3px rgb(4, 103, 196) solid;
+    border-radius: 10px;
 }
 
 .translator-textarea {
@@ -45,3 +47,13 @@
     border-radius: 5px;
     background: #f9f9f9;
 }
+
+.translator-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+

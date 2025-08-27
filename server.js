@@ -16,7 +16,7 @@ app.post("/api/translate", async (req, res) => {
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4",
       messages: [
         {
           role: "system",
@@ -24,7 +24,8 @@ app.post("/api/translate", async (req, res) => {
         },
         { role: "user", content: text },
       ],
-      temperature: 0.3,
+      temperature: 0.5,
+      max_tokens: 500,
     });
 
     res.json({ translation: response.choices[0].message.content });
