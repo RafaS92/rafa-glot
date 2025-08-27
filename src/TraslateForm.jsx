@@ -18,7 +18,8 @@ const languages = [
 
 export default function TranslateForm() {
   const [text, setText] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingTraslation, setLoadingTraslation] = useState(false);
+  const [loadingImage, setLoadingImagen] = useState(false);
   const [language, setLanguage] = useState("es"); // default Spanish
   const [translatedText, setTranslatedText] = useState("");
   const [image, setImage] = useState(null);
@@ -26,7 +27,8 @@ export default function TranslateForm() {
   const handleTranslate = async () => {
     if (!text) return;
 
-    setLoading(true);
+    setLoadingTraslation(true);
+    setLoadingImagen(true);
     setTranslatedText("");
     setImage(null);
     try {
@@ -37,6 +39,7 @@ export default function TranslateForm() {
         body: JSON.stringify({ text, language }),
       });
       const data = await res.json();
+      setLoadingTraslation(false);
       setTranslatedText(data.translation);
 
       // Image generation
@@ -46,12 +49,11 @@ export default function TranslateForm() {
         body: JSON.stringify({ prompt: text }),
       });
       const imgData = await imgRes.json();
+      setLoadingImagen(false);
       setImage(`data:image/png;base64,${imgData.image}`);
     } catch (err) {
       console.error(err);
       setTranslatedText("Error: Could not translate.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -99,11 +101,12 @@ export default function TranslateForm() {
         </Button>
       </Box>
 
-      {loading && <p>Translating...</p>}
+      {loadingTraslation && <p>Translating...</p>}
       {translatedText && (
         <Result
           translatedText={translatedText}
           image={image}
+          loadingImage={loadingImage}
           language={languages.find((l) => l.value === language)?.label}
         />
       )}
