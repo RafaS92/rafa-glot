@@ -43,9 +43,10 @@ export default function TranslateForm() {
     setTranslatedText("");
     setImage(null);
 
+    const API_URL = process.env.BACKEND_API_KEY;
+
     try {
-      // Translation
-      const res = await fetch("http://localhost:3001/api/translate", {
+      const res = await fetch(`${API_URL}/api/translate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text, language }),
@@ -54,8 +55,8 @@ export default function TranslateForm() {
       setLoadingTraslation(false);
       setTranslatedText(data.translation);
 
-      // Image generation
-      const imgRes = await fetch("http://localhost:3001/api/image", {
+      // Image generation request
+      const imgRes = await fetch(`${API_URL}/api/image`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: text }),
