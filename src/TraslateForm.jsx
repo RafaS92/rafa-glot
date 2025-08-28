@@ -26,19 +26,18 @@ export default function TranslateForm() {
   const [translatedText, setTranslatedText] = useState("");
   const [image, setImage] = useState(null);
 
-  // 👇 create a ref for scrolling
   const bottomRef = useRef(null);
 
   useEffect(() => {
     if (translatedText) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [translatedText, image]); // scroll when translation or image changes
+  }, [translatedText, image]);
 
   const handleTranslate = async () => {
     if (!text) return;
 
-    setError(""); // clear old errors
+    setError("");
     setLoadingTraslation(true);
     setLoadingImagen(true);
     setTranslatedText("");
