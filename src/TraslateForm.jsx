@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Chip from "@mui/material/Chip";
 import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 import Result from "./Result";
 import "./TraslateForm.css";
 
@@ -21,17 +22,28 @@ export default function TranslateForm() {
   const [loadingTraslation, setLoadingTraslation] = useState(false);
   const [loadingImage, setLoadingImagen] = useState(false);
   const [error, setError] = useState("");
-  const [language, setLanguage] = useState("es"); // default Spanish
+  const [language, setLanguage] = useState("es");
   const [translatedText, setTranslatedText] = useState("");
   const [image, setImage] = useState(null);
+
+  // 👇 create a ref for scrolling
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    if (translatedText) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [translatedText, image]); // scroll when translation or image changes
 
   const handleTranslate = async () => {
     if (!text) return;
 
+    setError(""); // clear old errors
     setLoadingTraslation(true);
     setLoadingImagen(true);
     setTranslatedText("");
     setImage(null);
+
     try {
       // Translation
       const res = await fetch("http://localhost:3001/api/translate", {
@@ -53,8 +65,10 @@ export default function TranslateForm() {
       setLoadingImagen(false);
       setImage(`data:image/png;base64,${imgData.image}`);
     } catch (err) {
-      setError("Sorry theres have been an error");
-      setTranslatedText("Error: Could not translate.");
+      setError("Sorry, there has been an error. Please try again.");
+      setTranslatedText("");
+      setLoadingTraslation(false);
+      setLoadingImagen(false);
     }
   };
 
@@ -75,22 +89,21 @@ export default function TranslateForm() {
         rows={4}
         value={text}
         onChange={(e) => {
-          const words = e.target.value.trim().split(/\s+/); // split by spaces
+          const words = e.target.value.trim().split(/\s+/);
           if (words.length <= 15) {
             setText(e.target.value);
           }
         }}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
-            // Press Enter (without Shift)
-            e.preventDefault(); // Prevents new line
-            handleTranslate(); // Trigger function
+            e.preventDefault();
+            handleTranslate();
           }
         }}
         fullWidth
         helperText={`${
           text.trim() === "" ? 0 : text.trim().split(/\s+/).length
-        }/15 words`} // shows word count
+        }/15 words`}
       />
 
       <div className="translator-languages">
@@ -111,11 +124,17 @@ export default function TranslateForm() {
         </Box>
       </div>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 4, mb: 4 }}>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2, mb: 4 }}>
         <Button
           onClick={handleTranslate}
           variant="contained"
-          disabled={text.trim().split(/\s+/).filter(Boolean).length === 0} // disabled if no words
+          disabled={text.trim().split(/\s+/).filter(Boolean).length === 0}
         >
           Translate
         </Button>
@@ -130,6 +149,8 @@ export default function TranslateForm() {
           language={languages.find((l) => l.value === language)?.label}
         />
       )}
+
+      <div ref={bottomRef}></div>
     </div>
   );
 }
