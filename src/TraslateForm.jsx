@@ -44,6 +44,7 @@ export default function TranslateForm() {
     setImage(null);
 
     const API_URL = process.env.REACT_APP_BACKEND_URL;
+    console.log("API UR===L:", process.env.REACT_APP_BACKEND_URL);
 
     try {
       const res = await fetch(`${API_URL}/api/translate`, {
