@@ -20,6 +20,7 @@ export default function TranslateForm() {
   const [text, setText] = useState("");
   const [loadingTraslation, setLoadingTraslation] = useState(false);
   const [loadingImage, setLoadingImagen] = useState(false);
+  const [error, setError] = useState("");
   const [language, setLanguage] = useState("es"); // default Spanish
   const [translatedText, setTranslatedText] = useState("");
   const [image, setImage] = useState(null);
@@ -52,14 +53,14 @@ export default function TranslateForm() {
       setLoadingImagen(false);
       setImage(`data:image/png;base64,${imgData.image}`);
     } catch (err) {
-      console.error(err);
+      setError("Sorry theres have been an error");
       setTranslatedText("Error: Could not translate.");
     }
   };
 
   return (
     <div className="translator-container">
-      <h2>Welcome to RafaGlot!</h2>
+      <h1 className="title">Welcome to RafaGlot!</h1>
       <Chip
         label={languages.find((l) => l.value === language)?.label}
         variant="outlined"
@@ -73,8 +74,23 @@ export default function TranslateForm() {
         multiline
         rows={4}
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          const words = e.target.value.trim().split(/\s+/); // split by spaces
+          if (words.length <= 15) {
+            setText(e.target.value);
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            // Press Enter (without Shift)
+            e.preventDefault(); // Prevents new line
+            handleTranslate(); // Trigger function
+          }
+        }}
         fullWidth
+        helperText={`${
+          text.trim() === "" ? 0 : text.trim().split(/\s+/).length
+        }/15 words`} // shows word count
       />
 
       <div className="translator-languages">
@@ -96,7 +112,11 @@ export default function TranslateForm() {
       </div>
 
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4, mb: 4 }}>
-        <Button onClick={handleTranslate} variant="contained">
+        <Button
+          onClick={handleTranslate}
+          variant="contained"
+          disabled={text.trim().split(/\s+/).filter(Boolean).length === 0} // disabled if no words
+        >
           Translate
         </Button>
       </Box>

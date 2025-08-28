@@ -16,8 +16,6 @@ function Result({ translatedText, language, image, loadingImage }) {
         {loadingImage ? (
           <Box
             sx={{
-              height: 0,
-              paddingTop: "100%", // square aspect ratio for loader
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -38,13 +36,11 @@ function Result({ translatedText, language, image, loadingImage }) {
             }}
           />
         )}
-        <CardContent>
+        <CardContent style={{ backgroundColor: "#0077ff33" }}>
           <Typography gutterBottom variant="body1" component="div">
             {language}
           </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {translatedText}
-          </Typography>
+          <Typography variant="body2">{translatedText}</Typography>
         </CardContent>
       </Card>
     </Box>
