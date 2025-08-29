@@ -77,6 +77,10 @@ export default function TranslateForm() {
   return (
     <div className="translator-container">
       <h1 className="title">Welcome to RafaGlot!</h1>
+      <p className="description">
+        To use this app, just enter the text you want to translate, wait a few
+        seconds for the translation, and then you’ll see a generated image!
+      </p>
 
       <TextField
         placeholder="Enter text to translate"
@@ -137,6 +141,7 @@ export default function TranslateForm() {
       </Box>
 
       {loadingTraslation && <p>Translating...</p>}
+      {loadingImage && <p>Generating Image...</p>}
       {translatedText && (
         <Result
           translatedText={translatedText}
