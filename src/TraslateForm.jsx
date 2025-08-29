@@ -77,12 +77,6 @@ export default function TranslateForm() {
   return (
     <div className="translator-container">
       <h1 className="title">Welcome to RafaGlot!</h1>
-      <Chip
-        label={languages.find((l) => l.value === language)?.label}
-        variant="outlined"
-        color="primary"
-        sx={{ mb: 2 }}
-      />
 
       <TextField
         label="Enter text to translate"
@@ -106,6 +100,7 @@ export default function TranslateForm() {
         helperText={`${
           text.trim() === "" ? 0 : text.trim().split(/\s+/).length
         }/15 words`}
+        InputLabelProps={{ shrink: false }}
       />
 
       <div className="translator-languages">
