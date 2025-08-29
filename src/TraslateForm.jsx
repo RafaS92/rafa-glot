@@ -44,6 +44,7 @@ export default function TranslateForm() {
     setImage(null);
 
     const API_URL = import.meta.env.VITE_BACKEND_URL;
+
     console.log("API UR===L:", API_URL);
 
     try {
