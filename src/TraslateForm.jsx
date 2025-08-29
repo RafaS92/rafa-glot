@@ -78,8 +78,8 @@ export default function TranslateForm() {
     <div className="translator-container">
       <h1 className="title">Welcome to RafaGlot!</h1>
       <p className="description">
-        To use this app, just enter the text you want to translate, wait a few
-        seconds for the translation, and then you’ll see a generated image!
+        Type in the text you would like to translate, give it a few seconds, and
+        watch as your image magically appears!{" "}
       </p>
 
       <TextField
