@@ -10,6 +10,7 @@ import "./TraslateForm.css";
 
 const languages = [
   { value: "es", label: "Spanish" },
+  { value: "en", label: "English" },
   { value: "fr", label: "French" },
   { value: "de", label: "German" },
   { value: "sk", label: "Slovak" },
