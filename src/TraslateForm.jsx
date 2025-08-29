@@ -79,7 +79,7 @@ export default function TranslateForm() {
       <h1 className="title">Welcome to RafaGlot!</h1>
 
       <TextField
-        label="Enter text to translate"
+        placeholder="Enter text to translate"
         variant="outlined"
         multiline
         rows={4}
@@ -100,7 +100,6 @@ export default function TranslateForm() {
         helperText={`${
           text.trim() === "" ? 0 : text.trim().split(/\s+/).length
         }/15 words`}
-        InputLabelProps={{ shrink: false }}
       />
 
       <div className="translator-languages">
